@@ -1,6 +1,6 @@
 {
   "name": "@wyre-technology/node-liongard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Comprehensive, fully-typed Node.js/TypeScript library for the Liongard API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
