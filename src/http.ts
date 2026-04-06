@@ -33,7 +33,9 @@ export class HttpClient {
     const { method = 'GET', body, params } = options;
     const baseUrl = apiVersion === 'v2' ? this.config.baseUrlV2 : this.config.baseUrlV1;
 
-    let url = `${baseUrl}${path}`;
+    // Ensure path ends with '/' to avoid 301 redirects that strip auth headers
+    const normalizedPath = path.endsWith('/') ? path : `${path}/`;
+    let url = `${baseUrl}${normalizedPath}`;
     if (params) {
       const searchParams = new URLSearchParams();
       for (const [key, value] of Object.entries(params)) {
