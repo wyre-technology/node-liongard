@@ -1,3 +1,21 @@
+# [3.0.0](https://github.com/wyre-technology/node-liongard/compare/v2.0.1...v3.0.0) (2026-04-07)
+
+
+### Bug Fixes
+
+* **resources:** complete v2 query bodies with Environment, Pagination, default Filters ([bf93572](https://github.com/wyre-technology/node-liongard/commit/bf93572d9444fde76a6d795f0511231d4288c2a6))
+
+
+### BREAKING CHANGES
+
+* **resources:** NOTE: inventory.{identities,devices}.{list,listAll}
+signatures changed from (params?, filters?) to a single required
+params object with `environment`. This is shipped as a patch because
+v2.0.1's signature was non-functional in production (every call
+returned HTTP 400).
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
 ## [2.0.1](https://github.com/wyre-technology/node-liongard/compare/v2.0.0...v2.0.1) (2026-04-07)
 
 
