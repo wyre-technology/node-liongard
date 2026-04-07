@@ -23,11 +23,16 @@ export class TimelineResource {
       {
         method: 'POST',
         body: {
+          Filters: Array.isArray(filters)
+            ? filters
+            : filters
+              ? [filters]
+              : [],
+          Sorting: [],
           Pagination: {
             Page: params?.page ?? 1,
             PageSize: params?.pageSize ?? 50,
           },
-          ...(filters ? { Filters: filters } : {}),
         },
       },
     );
@@ -39,7 +44,10 @@ export class TimelineResource {
       this.httpClient,
       '/timelines/query',
       'v2',
-      filters ? { Filters: filters } : {},
+      {
+        Filters: Array.isArray(filters) ? filters : filters ? [filters] : [],
+        Sorting: [],
+      },
       pageSize ?? 50,
     );
   }

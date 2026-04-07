@@ -38,11 +38,16 @@ class IdentitiesSubResource {
       {
         method: 'POST',
         body: {
+          Filters: Array.isArray(filters)
+            ? filters
+            : filters
+              ? [filters]
+              : [],
+          Sorting: [],
           Pagination: {
             Page: params?.page ?? 1,
             PageSize: params?.pageSize ?? 50,
           },
-          ...(filters ? { Filters: filters } : {}),
         },
       },
     );
@@ -54,7 +59,10 @@ class IdentitiesSubResource {
       this.httpClient,
       '/inventory/identities/query',
       'v2',
-      filters ? { Filters: filters } : {},
+      {
+        Filters: Array.isArray(filters) ? filters : filters ? [filters] : [],
+        Sorting: [],
+      },
       pageSize ?? 50,
     );
   }
@@ -88,11 +96,16 @@ class DevicesSubResource {
       {
         method: 'POST',
         body: {
+          Filters: Array.isArray(filters)
+            ? filters
+            : filters
+              ? [filters]
+              : [],
+          Sorting: [],
           Pagination: {
             Page: params?.page ?? 1,
             PageSize: params?.pageSize ?? 50,
           },
-          ...(filters ? { Filters: filters } : {}),
         },
       },
     );
@@ -104,7 +117,10 @@ class DevicesSubResource {
       this.httpClient,
       '/inventory/device-profiles/query',
       'v2',
-      filters ? { Filters: filters } : {},
+      {
+        Filters: Array.isArray(filters) ? filters : filters ? [filters] : [],
+        Sorting: [],
+      },
       pageSize ?? 50,
     );
   }

@@ -23,6 +23,8 @@ export class AgentsResource {
       {
         method: 'POST',
         body: {
+          Filters: [],
+          Sorting: [],
           Pagination: {
             Page: params?.page ?? 1,
             PageSize: params?.pageSize ?? 50,
@@ -38,7 +40,7 @@ export class AgentsResource {
       this.httpClient,
       '/view/agents',
       'v2',
-      {},
+      { Filters: [], Sorting: [] },
       pageSize ?? 50,
     );
   }
