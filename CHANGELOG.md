@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/wyre-technology/node-liongard/compare/v2.0.0...v2.0.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **resources:** include required Filters/Sorting in v2 POST query bodies ([5eb3c1c](https://github.com/wyre-technology/node-liongard/commit/5eb3c1c91f61658382e2325c630d64e40044e4b7))
+
 # [2.0.0](https://github.com/wyre-technology/node-liongard/compare/v1.0.2...v2.0.0) (2026-04-07)
 
 
