@@ -6,7 +6,6 @@ export * from './inspectors.js';
 export * from './launchpoints.js';
 export * from './inspections.js';
 export * from './detections.js';
-export * from './alerts.js';
 export * from './metrics.js';
 export * from './timeline.js';
 export * from './inventory.js';

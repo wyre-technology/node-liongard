@@ -33,7 +33,7 @@ class IdentitiesSubResource {
   /** List identities via POST query (v2) */
   async list(params?: PaginationParams, filters?: Record<string, unknown>): Promise<PaginatedResponse<Identity>> {
     return this.httpClient.request<PaginatedResponse<Identity>>(
-      '/inventory-identities-query',
+      '/inventory/identities/query',
       'v2',
       {
         method: 'POST',
@@ -52,7 +52,7 @@ class IdentitiesSubResource {
   listAll(filters?: Record<string, unknown>, pageSize?: number): PaginatedPostIterable<Identity> {
     return new PaginatedPostIterable<Identity>(
       this.httpClient,
-      '/inventory-identities-query',
+      '/inventory/identities/query',
       'v2',
       filters ? { Filters: filters } : {},
       pageSize ?? 50,
@@ -61,12 +61,12 @@ class IdentitiesSubResource {
 
   /** Get a single identity by ID (v2) */
   async get(id: number): Promise<Identity> {
-    return this.httpClient.request<Identity>(`/inventory-identities/${id}`, 'v2');
+    return this.httpClient.request<Identity>(`/inventory/identities/${id}`, 'v2');
   }
 
   /** Update an identity (v2) */
   async update(id: number, data: IdentityUpdateRequest): Promise<Identity> {
-    return this.httpClient.request<Identity>(`/inventory-identities/${id}`, 'v2', {
+    return this.httpClient.request<Identity>(`/inventory/identities/${id}`, 'v2', {
       method: 'PUT',
       body: data,
     });
@@ -83,7 +83,7 @@ class DevicesSubResource {
   /** List device profiles via POST query (v2) */
   async list(params?: PaginationParams, filters?: Record<string, unknown>): Promise<PaginatedResponse<DeviceProfile>> {
     return this.httpClient.request<PaginatedResponse<DeviceProfile>>(
-      '/inventory-device-profiles-query',
+      '/inventory/device-profiles/query',
       'v2',
       {
         method: 'POST',
@@ -102,7 +102,7 @@ class DevicesSubResource {
   listAll(filters?: Record<string, unknown>, pageSize?: number): PaginatedPostIterable<DeviceProfile> {
     return new PaginatedPostIterable<DeviceProfile>(
       this.httpClient,
-      '/inventory-device-profiles-query',
+      '/inventory/device-profiles/query',
       'v2',
       filters ? { Filters: filters } : {},
       pageSize ?? 50,
@@ -111,12 +111,12 @@ class DevicesSubResource {
 
   /** Get a single device profile by ID (v2) */
   async get(id: number): Promise<DeviceProfile> {
-    return this.httpClient.request<DeviceProfile>(`/inventory-device-profiles/${id}`, 'v2');
+    return this.httpClient.request<DeviceProfile>(`/inventory/device-profiles/${id}`, 'v2');
   }
 
   /** Update a device profile (v2) */
   async update(id: number, data: DeviceProfileUpdateRequest): Promise<DeviceProfile> {
-    return this.httpClient.request<DeviceProfile>(`/inventory-device-profiles/${id}`, 'v2', {
+    return this.httpClient.request<DeviceProfile>(`/inventory/device-profiles/${id}`, 'v2', {
       method: 'PUT',
       body: data,
     });

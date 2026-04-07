@@ -56,10 +56,6 @@ const detections = [
   { ID: 1, Type: 'Change', Severity: 'Medium', SystemID: 1, EnvironmentID: 1, Description: 'New user added', DetectedOn: '2024-06-01T10:00:00Z', ResolvedOn: null, Status: 'Open' },
 ];
 
-const alerts = [
-  { ID: 1, Name: 'High Severity Alert', Type: 'Detection', Severity: 'High', Status: 'Active', EnvironmentID: 1, SystemID: 1, TriggeredOn: '2024-06-01T10:00:00Z', CreatedOn: '2024-01-01T00:00:00Z', UpdatedOn: '2024-06-01T00:00:00Z' },
-];
-
 const metrics = [
   { ID: 1, Name: 'User Count', Description: 'Total AD users', Type: 'Count', Status: 'Active', CreatedOn: '2024-01-01T00:00:00Z', UpdatedOn: '2024-06-01T00:00:00Z' },
 ];
@@ -89,7 +85,7 @@ export const handlers = [
     return HttpResponse.json(paginatedResponse(environments, page, pageSize));
   }),
 
-  http.get(`${BASE_V2}/environments-count`, () => {
+  http.get(`${BASE_V2}/environments/count`, () => {
     return HttpResponse.json(environments.length);
   }),
 
@@ -120,7 +116,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  http.get(`${BASE_V2}/environments/:id/relatedentities`, ({ params }) => {
+  http.get(`${BASE_V2}/environments/:id/relatedEntities`, ({ params }) => {
     const id = parseInt(params['id'] as string);
     return HttpResponse.json({
       ID: id,
@@ -151,8 +147,8 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  // ── Agents (v2) ──
-  http.post(`${BASE_V2}/view-agents`, async ({ request }) => {
+  // ── Agents ──
+  http.post(`${BASE_V2}/view/agents`, async ({ request }) => {
     const body = await request.json() as Record<string, unknown>;
     const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
     const page = pagination?.Page ?? 1;
@@ -160,12 +156,8 @@ export const handlers = [
     return HttpResponse.json(paginatedResponse(agents, page, pageSize));
   }),
 
-  http.delete(`${BASE_V2}/agents`, () => {
+  http.delete(`${BASE_V1}/agents/:id`, () => {
     return new HttpResponse(null, { status: 204 });
-  }),
-
-  http.post(`${BASE_V2}/agent-installer`, () => {
-    return HttpResponse.json({ URL: 'https://download.liongard.com/installer', Token: 'install-token-123' });
   }),
 
   // ── Systems (v1) ──
@@ -230,28 +222,16 @@ export const handlers = [
     return new HttpResponse(null, { status: 200 });
   }),
 
-  // ── Detections (v2) ──
-  http.post(`${BASE_V2}/detections`, async ({ request }) => {
-    const body = await request.json() as Record<string, unknown>;
-    const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
-    const page = pagination?.Page ?? 1;
-    const pageSize = pagination?.PageSize ?? 50;
-    return HttpResponse.json(paginatedResponse(detections, page, pageSize));
+  // ── Detections (v1) ──
+  http.get(`${BASE_V1}/detections`, () => {
+    return HttpResponse.json(detections);
   }),
 
-  // ── Alerts (v1) ──
-  http.get(`${BASE_V1}/alerts`, ({ request }) => {
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get('page') ?? '1');
-    const pageSize = parseInt(url.searchParams.get('pageSize') ?? '50');
-    return HttpResponse.json(paginatedResponse(alerts, page, pageSize));
-  }),
-
-  http.get(`${BASE_V1}/alerts/:id`, ({ params }) => {
+  http.get(`${BASE_V1}/detections/:id`, ({ params }) => {
     const id = parseInt(params['id'] as string);
-    const alert = alerts.find(a => a.ID === id);
-    if (!alert) return new HttpResponse(null, { status: 404 });
-    return HttpResponse.json(alert);
+    const det = detections.find(d => d.ID === id);
+    if (!det) return new HttpResponse(null, { status: 404 });
+    return HttpResponse.json(det);
   }),
 
   // ── Metrics (v2) ──
@@ -284,7 +264,7 @@ export const handlers = [
   }),
 
   // ── Timeline (v2) ──
-  http.post(`${BASE_V2}/timelines-query`, async ({ request }) => {
+  http.post(`${BASE_V2}/timelines/query`, async ({ request }) => {
     const body = await request.json() as Record<string, unknown>;
     const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
     return HttpResponse.json(paginatedResponse(timelineEntries, pagination?.Page ?? 1, pagination?.PageSize ?? 50));
@@ -322,20 +302,20 @@ export const handlers = [
   }),
 
   // ── Inventory (v2) ──
-  http.post(`${BASE_V2}/inventory-identities-query`, async ({ request }) => {
+  http.post(`${BASE_V2}/inventory/identities/query`, async ({ request }) => {
     const body = await request.json() as Record<string, unknown>;
     const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
     return HttpResponse.json(paginatedResponse(identities, pagination?.Page ?? 1, pagination?.PageSize ?? 50));
   }),
 
-  http.get(`${BASE_V2}/inventory-identities/:id`, ({ params }) => {
+  http.get(`${BASE_V2}/inventory/identities/:id`, ({ params }) => {
     const id = parseInt(params['id'] as string);
     const identity = identities.find(i => i.ID === id);
     if (!identity) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json(identity);
   }),
 
-  http.put(`${BASE_V2}/inventory-identities/:id`, async ({ params, request }) => {
+  http.put(`${BASE_V2}/inventory/identities/:id`, async ({ params, request }) => {
     const id = parseInt(params['id'] as string);
     const body = await request.json() as Record<string, unknown>;
     const identity = identities.find(i => i.ID === id);
@@ -343,20 +323,20 @@ export const handlers = [
     return HttpResponse.json({ ...identity, ...body, UpdatedOn: new Date().toISOString() });
   }),
 
-  http.post(`${BASE_V2}/inventory-device-profiles-query`, async ({ request }) => {
+  http.post(`${BASE_V2}/inventory/device-profiles/query`, async ({ request }) => {
     const body = await request.json() as Record<string, unknown>;
     const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
     return HttpResponse.json(paginatedResponse(deviceProfiles, pagination?.Page ?? 1, pagination?.PageSize ?? 50));
   }),
 
-  http.get(`${BASE_V2}/inventory-device-profiles/:id`, ({ params }) => {
+  http.get(`${BASE_V2}/inventory/device-profiles/:id`, ({ params }) => {
     const id = parseInt(params['id'] as string);
     const device = deviceProfiles.find(d => d.ID === id);
     if (!device) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json(device);
   }),
 
-  http.put(`${BASE_V2}/inventory-device-profiles/:id`, async ({ params, request }) => {
+  http.put(`${BASE_V2}/inventory/device-profiles/:id`, async ({ params, request }) => {
     const id = parseInt(params['id'] as string);
     const body = await request.json() as Record<string, unknown>;
     const device = deviceProfiles.find(d => d.ID === id);

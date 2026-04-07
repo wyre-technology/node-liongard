@@ -1,3 +1,37 @@
+## [Unreleased]
+
+### BREAKING CHANGES
+
+- **Removed `AlertsResource`.** The Liongard public API has no REST endpoint
+  for alerts — alerts are delivered exclusively via webhooks. Subscribe to the
+  `alerts.created` / `alerts.updated` webhook events instead. The `client.alerts`
+  property, the `AlertsResource` class, and the `Alert` type have all been removed.
+- **Removed `AgentsResource.generateInstaller()` / `AgentInstaller` type.**
+  `POST /api/v2/agent-installer` is not part of the public Liongard API
+  (not present in the official Postman collection). Agent installers must be
+  generated via the Liongard web UI.
+- **`AgentsResource.delete(id)` is now per-id, not bulk.** It now calls
+  `DELETE /api/v1/agents/{id}` and accepts a single numeric `id` instead of an
+  array of IDs.
+- **`DetectionsResource.list()` signature changed.** Now calls
+  `GET /api/v1/detections` (instead of `POST /api/v2/detections`) and accepts
+  `{ conditions?, fields? }` query options. Returns a plain `Detection[]` array,
+  not a paginated envelope. `listAll()` has been removed; a new `get(id)` helper
+  was added.
+
+### Bug Fixes
+
+- Corrected v2 endpoint paths to use slash-delimited segments (multi-source
+  verified against the official Liongard Postman collection):
+  - `/environments-count` → `/environments/count`
+  - `/environments/{id}/relatedentities` → `/environments/{id}/relatedEntities`
+  - `/view-agents` → `/view/agents`
+  - `/inventory-identities-query` → `/inventory/identities/query`
+  - `/inventory-identities/{id}` → `/inventory/identities/{id}`
+  - `/inventory-device-profiles-query` → `/inventory/device-profiles/query`
+  - `/inventory-device-profiles/{id}` → `/inventory/device-profiles/{id}`
+  - `/timelines-query` → `/timelines/query`
+
 ## [1.0.2](https://github.com/wyre-technology/node-liongard/compare/v1.0.1...v1.0.2) (2026-04-06)
 
 

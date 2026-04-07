@@ -26,13 +26,7 @@ describe('AgentsResource', () => {
     expect(items).toHaveLength(2);
   });
 
-  it('should bulk delete agents', async () => {
-    await expect(client.agents.delete([1, 2])).resolves.toBeUndefined();
-  });
-
-  it('should generate installer', async () => {
-    const installer = await client.agents.generateInstaller();
-    expect(installer.URL).toContain('liongard.com');
-    expect(installer.Token).toBeTruthy();
+  it('should delete an agent by id (v1)', async () => {
+    await expect(client.agents.delete(1)).resolves.toBeUndefined();
   });
 });

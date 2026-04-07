@@ -89,7 +89,6 @@ describe('LiongardClient', () => {
       expect(client.inspectors).toBeDefined();
       expect(client.launchpoints).toBeDefined();
       expect(client.detections).toBeDefined();
-      expect(client.alerts).toBeDefined();
       expect(client.metrics).toBeDefined();
       expect(client.timeline).toBeDefined();
       expect(client.inventory).toBeDefined();

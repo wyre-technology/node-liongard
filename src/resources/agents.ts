@@ -6,7 +6,7 @@ import type { HttpClient } from '../http.js';
 import type { ResolvedConfig } from '../config.js';
 import type { PaginationParams, PaginatedResponse } from '../pagination.js';
 import { PaginatedPostIterable } from '../pagination.js';
-import type { Agent, AgentInstaller } from '../types/agents.js';
+import type { Agent } from '../types/agents.js';
 
 export class AgentsResource {
   private readonly httpClient: HttpClient;
@@ -15,10 +15,10 @@ export class AgentsResource {
     this.httpClient = httpClient;
   }
 
-  /** List agents via POST /view-agents (v2) */
+  /** List agents via POST /view/agents (v2) */
   async list(params?: PaginationParams): Promise<PaginatedResponse<Agent>> {
     return this.httpClient.request<PaginatedResponse<Agent>>(
-      '/view-agents',
+      '/view/agents',
       'v2',
       {
         method: 'POST',
@@ -36,25 +36,22 @@ export class AgentsResource {
   listAll(pageSize?: number): PaginatedPostIterable<Agent> {
     return new PaginatedPostIterable<Agent>(
       this.httpClient,
-      '/view-agents',
+      '/view/agents',
       'v2',
       {},
       pageSize ?? 50,
     );
   }
 
-  /** Bulk delete agents (v2) */
-  async delete(ids: number[]): Promise<void> {
-    await this.httpClient.request<void>('/agents', 'v2', {
+  /** Delete a single agent by ID (v1 DELETE /agents/{id}) */
+  async delete(id: number): Promise<void> {
+    await this.httpClient.request<void>(`/agents/${id}`, 'v1', {
       method: 'DELETE',
-      body: { AgentIDs: ids },
     });
   }
 
-  /** Generate a dynamic installer (v2) */
-  async generateInstaller(): Promise<AgentInstaller> {
-    return this.httpClient.request<AgentInstaller>('/agent-installer', 'v2', {
-      method: 'POST',
-    });
-  }
+  // NOTE: `generateInstaller()` / POST /agent-installer was removed.
+  // That endpoint is not part of the public Liongard API (not present in the
+  // official Postman collection). Agent installers must be generated via the
+  // Liongard web UI.
 }

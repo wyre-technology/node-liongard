@@ -12,7 +12,6 @@ import { SystemsResource } from './resources/systems.js';
 import { InspectorsResource } from './resources/inspectors.js';
 import { LaunchpointsResource } from './resources/launchpoints.js';
 import { DetectionsResource } from './resources/detections.js';
-import { AlertsResource } from './resources/alerts.js';
 import { MetricsResource } from './resources/metrics.js';
 import { TimelineResource } from './resources/timeline.js';
 import { InventoryResource } from './resources/inventory.js';
@@ -55,8 +54,6 @@ export class LiongardClient {
   readonly launchpoints: LaunchpointsResource;
   /** Detection operations */
   readonly detections: DetectionsResource;
-  /** Alert operations */
-  readonly alerts: AlertsResource;
   /** Metric operations */
   readonly metrics: MetricsResource;
   /** Timeline operations */
@@ -79,7 +76,6 @@ export class LiongardClient {
     this.inspectors = new InspectorsResource(this.httpClient, this.config);
     this.launchpoints = new LaunchpointsResource(this.httpClient, this.config);
     this.detections = new DetectionsResource(this.httpClient, this.config);
-    this.alerts = new AlertsResource(this.httpClient, this.config);
     this.metrics = new MetricsResource(this.httpClient, this.config);
     this.timeline = new TimelineResource(this.httpClient, this.config);
     this.inventory = new InventoryResource(this.httpClient, this.config);

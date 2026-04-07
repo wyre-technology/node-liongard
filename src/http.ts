@@ -17,7 +17,7 @@ import {
 export interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
   body?: unknown;
-  params?: Record<string, string | number | boolean | undefined>;
+  params?: Record<string, string | number | boolean | undefined | Array<string | number>>;
 }
 
 export class HttpClient {
@@ -39,7 +39,12 @@ export class HttpClient {
     if (params) {
       const searchParams = new URLSearchParams();
       for (const [key, value] of Object.entries(params)) {
-        if (value !== undefined) {
+        if (value === undefined) continue;
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            searchParams.append(key, String(v));
+          }
+        } else {
           searchParams.append(key, String(value));
         }
       }

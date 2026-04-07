@@ -18,7 +18,7 @@ export class TimelineResource {
   /** List timeline entries via POST (v2) */
   async list(params?: PaginationParams, filters?: Record<string, unknown>): Promise<PaginatedResponse<TimelineEntry>> {
     return this.httpClient.request<PaginatedResponse<TimelineEntry>>(
-      '/timelines-query',
+      '/timelines/query',
       'v2',
       {
         method: 'POST',
@@ -37,7 +37,7 @@ export class TimelineResource {
   listAll(filters?: Record<string, unknown>, pageSize?: number): PaginatedPostIterable<TimelineEntry> {
     return new PaginatedPostIterable<TimelineEntry>(
       this.httpClient,
-      '/timelines-query',
+      '/timelines/query',
       'v2',
       filters ? { Filters: filters } : {},
       pageSize ?? 50,

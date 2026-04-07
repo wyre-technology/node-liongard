@@ -13,8 +13,3 @@ export interface Agent {
   CreatedOn: string;
   UpdatedOn: string;
 }
-
-export interface AgentInstaller {
-  URL: string;
-  Token: string;
-}

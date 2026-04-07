@@ -81,13 +81,13 @@ export class EnvironmentsResource {
 
   /** Get environment count (v2) */
   async count(): Promise<number> {
-    return this.httpClient.request<number>('/environments-count', 'v2');
+    return this.httpClient.request<number>('/environments/count', 'v2');
   }
 
   /** Get related entities for an environment (v2) */
   async getRelatedEntities(id: number): Promise<EnvironmentRelatedEntities> {
     return this.httpClient.request<EnvironmentRelatedEntities>(
-      `/environments/${id}/relatedentities`,
+      `/environments/${id}/relatedEntities`,
       'v2',
     );
   }
