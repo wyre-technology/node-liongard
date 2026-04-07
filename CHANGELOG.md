@@ -1,3 +1,33 @@
+# [2.0.0](https://github.com/wyre-technology/node-liongard/compare/v1.0.2...v2.0.0) (2026-04-07)
+
+
+### Bug Fixes
+
+* **paths:** correct v2 endpoints to use slash-delimited paths, remove non-existent alerts resource ([f11159b](https://github.com/wyre-technology/node-liongard/commit/f11159b5d4e4247b75018c7daac492ad7bfb1b42))
+
+
+### BREAKING CHANGES
+
+* **paths:** AlertsResource removed — alerts in Liongard are webhook-only,
+no REST endpoint exists. Subscribe to the alerts.created and alerts.updated
+webhook events instead.
+
+Path corrections (multi-source verified against official Postman collection):
+- /environments-count → /environments/count
+- /view-agents → /view/agents
+- /inventory-identities-query → /inventory/identities/query
+- /inventory-identities/{id} → /inventory/identities/{id}
+- /inventory-device-profiles-query → /inventory/device-profiles/query
+- /inventory-device-profiles/{id} → /inventory/device-profiles/{id}
+- /timelines-query → /timelines/query
+- POST /api/v2/detections → GET /api/v1/detections (with query params)
+- relatedentities → relatedEntities (camelCase)
+
+Also: AgentsResource.delete(id) is now per-id via v1 (DELETE /api/v1/agents/{id}),
+and AgentsResource.generateInstaller() was removed (endpoint not in public API).
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+
 ## [Unreleased]
 
 ### BREAKING CHANGES
