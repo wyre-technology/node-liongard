@@ -5,7 +5,6 @@
 import type { HttpClient } from '../http.js';
 import type { ResolvedConfig } from '../config.js';
 import type { PaginationParams, PaginatedResponse } from '../pagination.js';
-import { PaginatedPostIterable } from '../pagination.js';
 import type { TimelineEntry } from '../types/timeline.js';
 
 const DEFAULT_TIMELINE_FILTERS = [{ Field: 'Latest', Op: 'Match', Value: true }];
@@ -29,13 +28,16 @@ export class TimelineResource {
   /**
    * List timeline entries via POST /api/v2/timelines/query.
    *
-   * Liongard requires at least one filter on this endpoint. If no filters
-   * are supplied, the SDK defaults to the canonical "latest entries" filter
-   * from Liongard's official Postman collection:
-   * `[{Field: "Latest", Op: "Match", Value: true}]`.
+   * IMPORTANT: Liongard's timeline query endpoint does NOT accept a
+   * `Pagination` object in the request body — passing one yields a 500.
+   * The endpoint returns all matching rows for the supplied filters; the
+   * `Pagination` block on the response is informational only.
+   *
+   * The `params` argument is accepted for API stability but is currently
+   * ignored, since this endpoint is not paginated server-side.
    */
   async list(
-    params?: PaginationParams,
+    _params?: PaginationParams,
     filters?: Record<string, unknown> | Array<Record<string, unknown>>,
   ): Promise<PaginatedResponse<TimelineEntry>> {
     return this.httpClient.request<PaginatedResponse<TimelineEntry>>(
@@ -46,29 +48,8 @@ export class TimelineResource {
         body: {
           Filters: normalizeTimelineFilters(filters),
           Sorting: DEFAULT_TIMELINE_SORTING,
-          Pagination: {
-            Page: params?.page ?? 1,
-            PageSize: params?.pageSize ?? 50,
-          },
         },
       },
-    );
-  }
-
-  /** Auto-paginate all timeline entries */
-  listAll(
-    filters?: Record<string, unknown> | Array<Record<string, unknown>>,
-    pageSize?: number,
-  ): PaginatedPostIterable<TimelineEntry> {
-    return new PaginatedPostIterable<TimelineEntry>(
-      this.httpClient,
-      '/timelines/query',
-      'v2',
-      {
-        Filters: normalizeTimelineFilters(filters),
-        Sorting: DEFAULT_TIMELINE_SORTING,
-      },
-      pageSize ?? 50,
     );
   }
 }

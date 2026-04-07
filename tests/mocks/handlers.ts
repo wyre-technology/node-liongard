@@ -222,9 +222,11 @@ export const handlers = [
     return new HttpResponse(null, { status: 200 });
   }),
 
-  // ── Detections (v1) ──
-  http.get(`${BASE_V1}/detections`, () => {
-    return HttpResponse.json(detections);
+  // ── Detections (v2 POST list, v1 GET by id) ──
+  http.post(`${BASE_V2}/detections`, async ({ request }) => {
+    const body = await request.json() as Record<string, unknown>;
+    const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
+    return HttpResponse.json(paginatedResponse(detections, pagination?.Page ?? 1, pagination?.PageSize ?? 25));
   }),
 
   http.get(`${BASE_V1}/detections/:id`, ({ params }) => {

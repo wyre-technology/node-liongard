@@ -14,18 +14,15 @@ describe('TimelineResource', () => {
     expect(result.Data[0]?.Action).toBe('Completed');
   });
 
-  it('should list with pagination', async () => {
-    const result = await client.timeline.list({ page: 1, pageSize: 10 });
-    expect(result.Pagination.CurrentPage).toBe(1);
-  });
-
-  it('should auto-paginate all entries', async () => {
-    const items = await client.timeline.listAll().toArray();
-    expect(items).toHaveLength(1);
-  });
-
   it('should accept filters', async () => {
     const result = await client.timeline.list(undefined, { Type: 'Inspection' });
+    expect(result.Data).toBeDefined();
+  });
+
+  it('should accept array of filters', async () => {
+    const result = await client.timeline.list(undefined, [
+      { Field: 'Latest', Op: 'Match', Value: true },
+    ]);
     expect(result.Data).toBeDefined();
   });
 });
