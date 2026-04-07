@@ -8,21 +8,15 @@ const client = new LiongardClient({
 });
 
 describe('TimelineResource', () => {
-  it('should list timeline entries', async () => {
-    const result = await client.timeline.list();
-    expect(result.Data).toHaveLength(1);
-    expect(result.Data[0]?.Action).toBe('Completed');
+  it('should list timeline entries (v1 GET, plain array)', async () => {
+    const entries = await client.timeline.list();
+    expect(Array.isArray(entries)).toBe(true);
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.Action).toBe('Completed');
   });
 
-  it('should accept filters', async () => {
-    const result = await client.timeline.list(undefined, { Type: 'Inspection' });
-    expect(result.Data).toBeDefined();
-  });
-
-  it('should accept array of filters', async () => {
-    const result = await client.timeline.list(undefined, [
-      { Field: 'Latest', Op: 'Match', Value: true },
-    ]);
-    expect(result.Data).toBeDefined();
+  it('should accept page and pageSize params', async () => {
+    const entries = await client.timeline.list({ page: 1, pageSize: 10 });
+    expect(Array.isArray(entries)).toBe(true);
   });
 });

@@ -265,11 +265,9 @@ export const handlers = [
     ));
   }),
 
-  // ── Timeline (v2) ──
-  http.post(`${BASE_V2}/timelines/query`, async ({ request }) => {
-    const body = await request.json() as Record<string, unknown>;
-    const pagination = body['Pagination'] as { Page: number; PageSize: number } | undefined;
-    return HttpResponse.json(paginatedResponse(timelineEntries, pagination?.Page ?? 1, pagination?.PageSize ?? 50));
+  // ── Timeline (v1 GET, plain array) ──
+  http.get(`${BASE_V1}/timeline`, () => {
+    return HttpResponse.json(timelineEntries);
   }),
 
   // ── Webhooks (v2) ──
