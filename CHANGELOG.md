@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/wyre-technology/node-liongard/compare/v3.0.0...v3.0.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **resources:** correct timeline + detections request bodies to match Liongard Postman spec ([c35e4fa](https://github.com/wyre-technology/node-liongard/commit/c35e4fa363dcebd580f52c7ce3daa104d4833bc9))
+
 # [3.0.0](https://github.com/wyre-technology/node-liongard/compare/v2.0.1...v3.0.0) (2026-04-07)
 
 
