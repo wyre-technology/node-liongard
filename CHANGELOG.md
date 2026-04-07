@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/wyre-technology/node-liongard/compare/v3.0.1...v3.0.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* **timeline:** switch to GET /api/v1/timeline (plain array) ([fce0ca0](https://github.com/wyre-technology/node-liongard/commit/fce0ca08bef8a344c07474471f26c392aff1aa5a))
+
 ## [3.0.1](https://github.com/wyre-technology/node-liongard/compare/v3.0.0...v3.0.1) (2026-04-07)
 
 
