@@ -34,9 +34,14 @@ export class DetectionsResource {
    */
   async list(options?: DetectionListOptions): Promise<Detection[]> {
     const params: Record<string, string | number | boolean | undefined | Array<string | number>> = {};
-    if (options?.conditions && options.conditions.length > 0) {
-      params['conditions[]'] = options.conditions.map(c => JSON.stringify(c));
-    }
+    // Liongard's GET /api/v1/detections requires at least one conditions[]
+    // query param. If the caller provides none, fall back to a no-op
+    // condition that matches every detection (ID > 0).
+    const conditions =
+      options?.conditions && options.conditions.length > 0
+        ? options.conditions
+        : [{ path: 'ID', op: '>', value: 0 }];
+    params['conditions[]'] = conditions.map(c => JSON.stringify(c));
     if (options?.fields && options.fields.length > 0) {
       params['fields[]'] = options.fields;
     }

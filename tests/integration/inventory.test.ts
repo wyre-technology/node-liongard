@@ -10,7 +10,7 @@ const client = new LiongardClient({
 describe('InventoryResource', () => {
   describe('identities', () => {
     it('should list identities', async () => {
-      const result = await client.inventory.identities.list();
+      const result = await client.inventory.identities.list({ environment: 8815 });
       expect(result.Data).toHaveLength(1);
       expect(result.Data[0]?.Name).toBe('John Doe');
     });
@@ -28,14 +28,14 @@ describe('InventoryResource', () => {
     });
 
     it('should auto-paginate all identities', async () => {
-      const items = await client.inventory.identities.listAll().toArray();
+      const items = await client.inventory.identities.listAll({ environment: 8815 }).toArray();
       expect(items).toHaveLength(1);
     });
   });
 
   describe('devices', () => {
     it('should list device profiles', async () => {
-      const result = await client.inventory.devices.list();
+      const result = await client.inventory.devices.list({ environment: 49198 });
       expect(result.Data).toHaveLength(1);
       expect(result.Data[0]?.Name).toBe('DC01');
     });
@@ -53,7 +53,7 @@ describe('InventoryResource', () => {
     });
 
     it('should auto-paginate all device profiles', async () => {
-      const items = await client.inventory.devices.listAll().toArray();
+      const items = await client.inventory.devices.listAll({ environment: 49198 }).toArray();
       expect(items).toHaveLength(1);
     });
   });

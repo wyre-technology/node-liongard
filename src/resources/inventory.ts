@@ -13,6 +13,25 @@ import type {
   DeviceProfileUpdateRequest,
 } from '../types/inventory.js';
 
+export interface InventoryListParams extends PaginationParams {
+  /** Liongard Environment ID — REQUIRED by the v2 inventory query endpoints. */
+  environment: number;
+  /**
+   * Optional Liongard query filters. Pass either a single filter object
+   * or an array of filter objects. Defaults to `[]`.
+   */
+  filters?: Record<string, unknown> | Array<Record<string, unknown>>;
+  /** Optional sorting array. Defaults to `[]`. */
+  sorting?: Array<Record<string, unknown>>;
+}
+
+function normalizeFilters(
+  filters?: Record<string, unknown> | Array<Record<string, unknown>>,
+): Array<Record<string, unknown>> {
+  if (!filters) return [];
+  return Array.isArray(filters) ? filters : [filters];
+}
+
 export class InventoryResource {
   readonly identities: IdentitiesSubResource;
   readonly devices: DevicesSubResource;
@@ -30,40 +49,42 @@ class IdentitiesSubResource {
     this.httpClient = httpClient;
   }
 
-  /** List identities via POST query (v2) */
-  async list(params?: PaginationParams, filters?: Record<string, unknown>): Promise<PaginatedResponse<Identity>> {
+  /**
+   * List identities via POST /api/v2/inventory/identities/query.
+   *
+   * `environment` is required by Liongard.
+   */
+  async list(params: InventoryListParams): Promise<PaginatedResponse<Identity>> {
     return this.httpClient.request<PaginatedResponse<Identity>>(
       '/inventory/identities/query',
       'v2',
       {
         method: 'POST',
         body: {
-          Filters: Array.isArray(filters)
-            ? filters
-            : filters
-              ? [filters]
-              : [],
-          Sorting: [],
+          Environment: params.environment,
+          Filters: normalizeFilters(params.filters),
           Pagination: {
-            Page: params?.page ?? 1,
-            PageSize: params?.pageSize ?? 50,
+            Page: params.page ?? 1,
+            PageSize: params.pageSize ?? 50,
           },
+          Sorting: params.sorting ?? [],
         },
       },
     );
   }
 
-  /** Auto-paginate all identities */
-  listAll(filters?: Record<string, unknown>, pageSize?: number): PaginatedPostIterable<Identity> {
+  /** Auto-paginate all identities for a given environment. */
+  listAll(params: Omit<InventoryListParams, 'page'>): PaginatedPostIterable<Identity> {
     return new PaginatedPostIterable<Identity>(
       this.httpClient,
       '/inventory/identities/query',
       'v2',
       {
-        Filters: Array.isArray(filters) ? filters : filters ? [filters] : [],
-        Sorting: [],
+        Environment: params.environment,
+        Filters: normalizeFilters(params.filters),
+        Sorting: params.sorting ?? [],
       },
-      pageSize ?? 50,
+      params.pageSize ?? 50,
     );
   }
 
@@ -88,40 +109,42 @@ class DevicesSubResource {
     this.httpClient = httpClient;
   }
 
-  /** List device profiles via POST query (v2) */
-  async list(params?: PaginationParams, filters?: Record<string, unknown>): Promise<PaginatedResponse<DeviceProfile>> {
+  /**
+   * List device profiles via POST /api/v2/inventory/device-profiles/query.
+   *
+   * `environment` is required by Liongard.
+   */
+  async list(params: InventoryListParams): Promise<PaginatedResponse<DeviceProfile>> {
     return this.httpClient.request<PaginatedResponse<DeviceProfile>>(
       '/inventory/device-profiles/query',
       'v2',
       {
         method: 'POST',
         body: {
-          Filters: Array.isArray(filters)
-            ? filters
-            : filters
-              ? [filters]
-              : [],
-          Sorting: [],
+          Environment: params.environment,
+          Filters: normalizeFilters(params.filters),
           Pagination: {
-            Page: params?.page ?? 1,
-            PageSize: params?.pageSize ?? 50,
+            Page: params.page ?? 1,
+            PageSize: params.pageSize ?? 50,
           },
+          Sorting: params.sorting ?? [],
         },
       },
     );
   }
 
-  /** Auto-paginate all device profiles */
-  listAll(filters?: Record<string, unknown>, pageSize?: number): PaginatedPostIterable<DeviceProfile> {
+  /** Auto-paginate all device profiles for a given environment. */
+  listAll(params: Omit<InventoryListParams, 'page'>): PaginatedPostIterable<DeviceProfile> {
     return new PaginatedPostIterable<DeviceProfile>(
       this.httpClient,
       '/inventory/device-profiles/query',
       'v2',
       {
-        Filters: Array.isArray(filters) ? filters : filters ? [filters] : [],
-        Sorting: [],
+        Environment: params.environment,
+        Filters: normalizeFilters(params.filters),
+        Sorting: params.sorting ?? [],
       },
-      pageSize ?? 50,
+      params.pageSize ?? 50,
     );
   }
 
