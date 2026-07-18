@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/wyre-technology/node-liongard/compare/v3.0.2...v3.0.3) (2026-07-18)
+
+
+### Bug Fixes
+
+* **tsconfig:** restore include/exclude globs ([#37](https://github.com/wyre-technology/node-liongard/issues/37)) ([4ce9ba4](https://github.com/wyre-technology/node-liongard/commit/4ce9ba41262704288058e675da0b3153937931ba))
+
 ## [3.0.2](https://github.com/wyre-technology/node-liongard/compare/v3.0.1...v3.0.2) (2026-04-07)
 
 
