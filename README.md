@@ -1,23 +1,23 @@
-# @wyre-technology/node-liongard
+# @wyre-ai/node-liongard
 
 A Node.js client library for the [Liongard](https://www.liongard.com/) API. Supports both v1 and v2 API endpoints.
 
 ## Installation
 
 ```bash
-npm install @wyre-technology/node-liongard
+npm install @wyre-ai/node-liongard
 ```
 
-> **Note:** This package is published to [GitHub Packages](https://github.com/wyre-technology/node-liongard/packages). You'll need to configure your `.npmrc`:
+> **Note:** This package is published to [GitHub Packages](https://github.com/WYRE-AI/node-liongard/packages). You'll need to configure your `.npmrc`:
 >
 > ```
-> @wyre-technology:registry=https://npm.pkg.github.com
+> @wyre-ai:registry=https://npm.pkg.github.com
 > ```
 
 ## Usage
 
 ```typescript
-import { LiongardClient } from "@wyre-technology/node-liongard";
+import { LiongardClient } from "@wyre-ai/node-liongard";
 
 const client = new LiongardClient({
   url: "https://your-instance.liongard.com",

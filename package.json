@@ -1,5 +1,5 @@
 {
-  "name": "@wyre-technology/node-liongard",
+  "name": "@wyre-ai/node-liongard",
   "version": "3.0.3",
   "description": "Comprehensive, fully-typed Node.js/TypeScript library for the Liongard API",
   "main": "./dist/index.cjs",
@@ -48,12 +48,12 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wyre-technology/node-liongard.git"
+    "url": "git+https://github.com/WYRE-AI/node-liongard.git"
   },
   "bugs": {
-    "url": "https://github.com/wyre-technology/node-liongard/issues"
+    "url": "https://github.com/WYRE-AI/node-liongard/issues"
   },
-  "homepage": "https://github.com/wyre-technology/node-liongard#readme",
+  "homepage": "https://github.com/WYRE-AI/node-liongard#readme",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
