@@ -1,6 +1,6 @@
 {
   "name": "@wyre-ai/node-liongard",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Comprehensive, fully-typed Node.js/TypeScript library for the Liongard API",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

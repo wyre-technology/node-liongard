@@ -1,3 +1,10 @@
+## [3.0.4](https://github.com/WYRE-AI/node-liongard/compare/v3.0.3...v3.0.4) (2026-08-25)
+
+
+### Bug Fixes
+
+* migrate to WYRE-AI org (npm scope, ghcr namespace, registry) ([#59](https://github.com/WYRE-AI/node-liongard/issues/59)) ([879102f](https://github.com/WYRE-AI/node-liongard/commit/879102f1cb6f130d636131dc416128e430f3f482))
+
 ## [3.0.3](https://github.com/wyre-technology/node-liongard/compare/v3.0.2...v3.0.3) (2026-07-18)
 
 
